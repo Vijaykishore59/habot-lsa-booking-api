@@ -90,3 +90,19 @@ def test_overlapping_booking_is_rejected(client, app):
             data["message"]
             == "LSA is already booked for the requested time."
         )
+def test_invalid_booking_is_rejected(client, app):
+    with app.app_context():
+        parent, lsa = create_test_data()
+
+        response = client.post(
+            "/api/v1/bookings/",
+            json={
+                "parent_id": parent.id,
+                "lsa_id": lsa.id,
+                "start_time": "2026-08-10T10:00:00+00:00",
+                "end_time": "2026-08-10T09:00:00+00:00",
+                "notes": "Invalid time range",
+            },
+        )
+
+        assert response.status_code in [400, 422]
