@@ -1,23 +1,20 @@
-# Habot LSA Booking API
+# HabotConnect – LSA Booking API
 
-A Flask-based backend for managing Learning Support Assistant (LSA) profiles, parent booking requests, and payment processing.
-
-The project provides REST APIs for searching LSAs, creating bookings, preventing overlapping bookings, and processing payment webhooks with idempotency protection.
+A Flask REST API for managing Learning Support Assistants (LSAs), parent booking requests, and payment processing.
 
 ## Features
 
-- LSA profile management
 - LSA search by skills
-- Parent and booking management
+- Parent and LSA management
+- Booking creation
 - Booking time validation
-- Prevention of overlapping LSA bookings
-- Payment record management
+- Double-booking prevention
 - Payment webhook processing
-- Idempotent payment webhook handling
-- SQLAlchemy ORM
-- Flask-Migrate database migrations
+- Payment webhook idempotency
+- SQLite database with SQLAlchemy
+- Flask-Migrate migrations
 - Swagger API documentation
-- Automated pytest test suite
+- Automated pytest tests
 - GitHub Actions CI
 
 ## Tech Stack
@@ -31,41 +28,20 @@ The project provides REST APIs for searching LSAs, creating bookings, preventing
 - Pytest
 - GitHub Actions
 
-## Project Structure
+## Architecture
 
 ```text
-habot-lsa-booking/
-│
-├── app/
-│   ├── models/
-│   │   ├── booking.py
-│   │   ├── lsa_profile.py
-│   │   ├── parent.py
-│   │   └── payment.py
-│   │
-│   ├── routes/
-│   │   ├── bookings.py
-│   │   ├── lsas.py
-│   │   └── payments.py
-│   │
-│   ├── services/
-│   │   └── payment_service.py
-│   │
-│   ├── extensions.py
-│   └── __init__.py
-│
-├── migrations/
-├── tests/
-│   ├── conftest.py
-│   ├── test_bookings.py
-│   └── test_payments.py
-│
-├── .github/
-│   └── workflows/
-│       └── tests.yml
-│
-├── run.py
-├── seed.py
-├── seed_payment.py
-├── requirements.txt
-└── README.md
+Client
+  │
+  ▼
+Flask REST API
+  │
+  ├── LSA Search
+  ├── Booking Service
+  └── Payment Webhook
+          │
+          ▼
+      SQLAlchemy
+          │
+          ▼
+        SQLite
